@@ -9,8 +9,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using CWAC19AcluMo.Data;
+using CWAC19AcluMo.Services;
 
-namespace CWAC19Aclu_Mo
+namespace CWAC19AcluMo
 {
     public class Startup
     {
@@ -33,6 +36,13 @@ namespace CWAC19Aclu_Mo
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddDbContext<CWAC19AcluMoContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("CWAC19AcluMoContext")));
+
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

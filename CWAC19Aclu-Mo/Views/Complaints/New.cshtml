@@ -1,0 +1,32 @@
+﻿@model CWAC19AcluMo.ViewModels.AddComplaintViewModel
+@{
+    ViewData["Title"] = "AddComplaint";
+}
+
+<h2>AddComplaint</h2>
+
+<div class="container">
+    <div class="row">
+        <form method="post" asp-controller="Complaints" asp-action="New">
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="ComplaintNo"></label>
+                <input asp-for="ComplaintNo" />
+            </div>
+            <div class="form-group">
+                <label asp-for="StatusCodeID"></label>
+                <select asp-for="StatusCodeID" asp-items="Model.StatusCodes"></select>
+            </div>
+            <div class="form-group">
+                Notification Options
+                <input id="options-email" type="checkbox" name="notification" value="email" />
+                <label for="options-email">Email</label>
+                <input id="options-phone" type="checkbox" name="notification" value="phone" />
+                <label for="options-phone">Phone</label>
+            </div>
+        </form>
+    </div>
+</div>
