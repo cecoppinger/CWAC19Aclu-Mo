@@ -28,6 +28,7 @@ namespace CWAC19Aclu_Mo.Controllers
             return View(viewModel);
         }
 
+<<<<<<< HEAD
         [HttpPost]
         public IActionResult New(AddComplaintViewModel viewModel)
         {
@@ -46,6 +47,19 @@ namespace CWAC19Aclu_Mo.Controllers
                     ComplaintStatusID = viewModel.StatusCodeID,
                     ComplaintNo = viewModel.ComplaintNo
                 };
+=======
+        public IActionResult Update()
+        {
+            return View();
+        }
+
+        //[HttpPost]
+        //public IActionResult New(AddComplaintViewModel viewModel)
+        //{
+        //    if(ModelState.IsValid)
+        //    {
+        //        ClientProfile newClient = new ClientProfile(viewModel.Email);
+>>>>>>> 5b826c4443e5abdc453b8c586880ee73eb794e21
 
                 _context.Complaints.Add(newComplaint);
                 _context.SaveChanges();
