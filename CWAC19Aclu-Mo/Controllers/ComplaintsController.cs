@@ -90,7 +90,8 @@ namespace CWAC19Aclu_Mo.Controllers
 
                 if(client == null)
                 {
-                    return NotFound();
+                    ViewBag.NotFound = "There's nothing here....";
+                    return View(new UpdateComplaintViewModel());
                 }
 
                 UpdateComplaintViewModel viewModel = new UpdateComplaintViewModel(client.Complaint, 

@@ -54,7 +54,7 @@ namespace CWAC19Aclu_Mo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> New([Bind("StatusCode,Description,ID")] ComplaintStatus complaintStatus)
+        public async Task<IActionResult> New([Bind("Status,Description,ID")] ComplaintStatus complaintStatus)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace CWAC19Aclu_Mo.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("StatusCode,Description,ID")] ComplaintStatus complaintStatus)
+        public async Task<IActionResult> Edit(int id, [Bind("Status,Description,ID")] ComplaintStatus complaintStatus)
         {
             if (id != complaintStatus.ID)
             {

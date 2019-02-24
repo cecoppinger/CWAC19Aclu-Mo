@@ -36,7 +36,7 @@
                     <tr>
                         <td>@Model.Complaint.ComplaintNo</td>
                         <td>
-                            <select asp-for="StatusCodeID" asp-items="Model.StatusCodes"></select>
+                            <select asp-for="StatusCodeID" asp-items="Model.StatusCodes" value=""></select>
                             <input type="hidden" asp-for="ComplaintID"  />
                         </td>
                     </tr>
@@ -46,5 +46,9 @@
      </div>
      <input type="submit" value="Update" />
      </form>
+    }
+    else
+    {
+            <p>@ViewBag.NotFound</p>
     }
 </div>

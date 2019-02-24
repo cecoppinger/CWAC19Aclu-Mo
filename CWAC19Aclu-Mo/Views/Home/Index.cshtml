@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Pick Your Poison</h2>
+    <div class="row">
+        <div class="col-sm-4">
+            <a class="card-link" asp-controller="Complaints" asp-action="Index">
+                <div class="card">
+                    <h2>View All Complaints</h2>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-4">
+            <a class="card-link" asp-controller="Complaints" asp-action="Update">
+                <div class="card">
+                    <h2>Search/Edit Complaint</h2>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-4">
+            <a class="card-link" asp-controller="ComplaintStatus" asp-action="Index">
+                <div class="card">
+                    <h2>View/Edit Statuses</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="row flex-container">
+        <div class="col-sm-4">
+            <a class="card-link" asp-controller="Complaints" asp-action="New">
+                <div class="card">
+                    <h2>Add New Complaint</h2>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
