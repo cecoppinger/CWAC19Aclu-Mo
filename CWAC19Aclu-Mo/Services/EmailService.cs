@@ -52,17 +52,14 @@ namespace CWAC19AcluMo.Services
             message.From.AddRange(emailMessage.FromAddresses.Select(x => new MailboxAddress(x.Name, x.Address)));
 
             message.Subject = emailMessage.Subject;
-            //We will say we are sending HTML. But there are options for plaintext etc. 
             message.Body = new TextPart(TextFormat.Html)
             {
                 Text = emailMessage.Content
             };
 
-            //Be careful that the SmtpClient class is the one from Mailkit not the framework!
             using (var emailClient = new SmtpClient())
             {
-                //The last parameter here is to use SSL (Which you should!)
-                emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, true);
+                emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, MailKit.Security.SecureSocketOptions.StartTls);
 
                 //Remove any OAuth functionality as we won't be using it. 
                 emailClient.AuthenticationMechanisms.Remove("XOAUTH2");

@@ -7,15 +7,18 @@ using CWAC19AcluMo.ViewModels;
 using CWAC19AcluMo.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using CWAC19AcluMo.Services;
 
 namespace CWAC19Aclu_Mo.Controllers
 {
     public class ComplaintsController : Controller
     {
         private readonly CWAC19AcluMoContext _context;
-        public ComplaintsController(CWAC19AcluMoContext context)
+        private readonly IEmailService _emailService;
+        public ComplaintsController(CWAC19AcluMoContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
 
         public IActionResult View(int id)
@@ -115,8 +118,10 @@ namespace CWAC19Aclu_Mo.Controllers
 
                 newComplaint.ComplaintStatusID = viewModel.StatusCodeID;
 
+                SendNotification(newComplaint.Client.Email, viewModel.StatusCodeID);
+
                 _context.SaveChanges();
-                return RedirectToAction(nameof(View), newComplaint.ClientProfileID);
+                return RedirectToAction(nameof(View), new { id = newComplaint.ClientProfileID });
             }
 
             return NotFound();
@@ -126,6 +131,29 @@ namespace CWAC19Aclu_Mo.Controllers
         private ClientProfile ClientExists(string email)
         {
             return _context.ClientProfiles.SingleOrDefault(u => u.Email == email);
+        }
+
+        private void SendNotification(string email, int statusID)
+        {
+            var status = _context.ComplaintStatuses.Find(statusID);
+
+            EmailMessage emailMessage = new EmailMessage
+            {
+                Subject = "Your Complaint Status With The ACLU-MO",
+                Content = String.Format("The status of your case is: {0}<br><br>{1}",
+                    status.StatusCode, status.Description)
+            };
+
+            EmailAddress emailAddress = new EmailAddress
+            {
+                Name = "",
+                Address = email
+            };
+
+            emailMessage.ToAddresses.Add(emailAddress);
+            emailMessage.FromAddresses.Add(emailAddress);
+
+            _emailService.Send(emailMessage);
         }
     }
 }

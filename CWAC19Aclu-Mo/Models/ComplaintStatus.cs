@@ -13,10 +13,10 @@ namespace CWAC19AcluMo.Models
         public int ID { get; set; }
 
         public ComplaintStatus() { }
-        public ComplaintStatus(AddComplaintStatusViewModel model)
+        public ComplaintStatus(string name, string description)
         {
-            StatusCode = model.Name;
-            Description = model.Description;
+            StatusCode = name;
+            Description = description;
         }
     }
 }
