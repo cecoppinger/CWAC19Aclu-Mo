@@ -18,17 +18,25 @@ namespace CWAC19Aclu_Mo.Controllers
             _context = context;
         }
 
+        public IActionResult View(int id)
+        {
+            return View(_context.ClientProfiles
+                .Include(c => c.Complaints)
+                .ThenInclude(c => c.Status)
+                .SingleOrDefault(c => c.ID == id));
+        }
+
         public IActionResult Success()
         {
             return View();
         }
+
         public IActionResult New()
         {
             AddComplaintViewModel viewModel = new AddComplaintViewModel(_context.ComplaintStatuses.ToList());
             return View(viewModel);
         }
 
-<<<<<<< HEAD
         [HttpPost]
         public IActionResult New(AddComplaintViewModel viewModel)
         {
@@ -47,19 +55,6 @@ namespace CWAC19Aclu_Mo.Controllers
                     ComplaintStatusID = viewModel.StatusCodeID,
                     ComplaintNo = viewModel.ComplaintNo
                 };
-=======
-        public IActionResult Update()
-        {
-            return View();
-        }
-
-        //[HttpPost]
-        //public IActionResult New(AddComplaintViewModel viewModel)
-        //{
-        //    if(ModelState.IsValid)
-        //    {
-        //        ClientProfile newClient = new ClientProfile(viewModel.Email);
->>>>>>> 5b826c4443e5abdc453b8c586880ee73eb794e21
 
                 _context.Complaints.Add(newComplaint);
                 _context.SaveChanges();
@@ -70,16 +65,50 @@ namespace CWAC19Aclu_Mo.Controllers
             return View(viewModel);
         }
 
-        //public IActionResult Update(string email)
-        //{
-        //    if(email != null)
-        //    {
-        //        ClientProfile client = ClientExists(email);
-        //    }
-        //}
+        public IActionResult Update(string email = null)
+        {
+            if (email != null)
+            {
+                ClientProfile client = _context.ClientProfiles
+                    .Include(cp => cp.Complaints)
+                    .ThenInclude(c => c.Status)
+                    .SingleOrDefault(c => c.Email == email);
 
-        //[HttpPost]
-        //public IActionResult Update()
+                if(client == null)
+                {
+                    return NotFound();
+                }
+
+                UpdateComplaintViewModel viewModel = new UpdateComplaintViewModel(client.Complaints,
+                    _context.ComplaintStatuses.ToList());
+                viewModel.Email = client.Email;
+                return View(viewModel);
+            }
+            else
+            {
+                return View(new UpdateComplaintViewModel());
+            }
+        }
+
+        [HttpPost]
+        public IActionResult Update(UpdateComplaintViewModel viewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                var client = _context.ClientProfiles
+                    .Include(c => c.Complaints)
+                    .ThenInclude(c => c.Status)
+                    .SingleOrDefault(c => c.Email == viewModel.Email);
+
+                client.Complaints = viewModel.Complaints;
+
+                _context.SaveChanges();
+                return RedirectToAction(nameof(View), client.ID);
+            }
+
+            return NotFound();
+        }
+
 
         private ClientProfile ClientExists(string email)
         {
