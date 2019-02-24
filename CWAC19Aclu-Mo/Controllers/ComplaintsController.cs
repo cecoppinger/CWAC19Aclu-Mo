@@ -22,6 +22,11 @@ namespace CWAC19Aclu_Mo.Controllers
             return View();
         }
 
+        public IActionResult Update()
+        {
+            return View();
+        }
+
         //[HttpPost]
         //public IActionResult New(AddComplaintViewModel viewModel)
         //{
