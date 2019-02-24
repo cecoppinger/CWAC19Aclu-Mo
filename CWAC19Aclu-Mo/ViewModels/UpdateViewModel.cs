@@ -29,7 +29,7 @@ namespace CWAC19AcluMo.ViewModels
                 StatusCodes.Add(new SelectListItem
                 {
                     Value = statusCode.ID.ToString(),
-                    Text = statusCode.StatusCode
+                    Text = statusCode.Status
                 });
             }            
         }

@@ -7,27 +7,25 @@ using System.Threading.Tasks;
 
 namespace CWAC19AcluMo.ViewModels
 {
-    public class AddComplaintViewModel
+    public class EditComplaintViewModel
     {
-        public string Email { get; set; }
-        public int StatusCodeID { get; set; }
+        public int StatusID { get; set; }
+        public int ComplaintID { get; set; }
         public int ComplaintNo { get; set; }
-
+        
         public List<SelectListItem> StatusCodes { get; set; }
 
-        public AddComplaintViewModel() { }
-        public AddComplaintViewModel(IEnumerable<ComplaintStatus> statusCodes)
+        public EditComplaintViewModel() { }
+        public EditComplaintViewModel(IEnumerable<ComplaintStatus> statuses)
         {
             StatusCodes = new List<SelectListItem>();
-
-            foreach(var statusCode in statusCodes)
+            foreach(ComplaintStatus status in statuses)
             {
                 StatusCodes.Add(new SelectListItem
                 {
-                    Value = statusCode.ID.ToString(),
-                    Text = statusCode.Status
+                    Value = status.ID.ToString(),
+                    Text = status.Status
                 });
-
             }
         }
     }

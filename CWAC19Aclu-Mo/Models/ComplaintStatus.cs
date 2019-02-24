@@ -8,14 +8,14 @@ namespace CWAC19AcluMo.Models
 {
     public class ComplaintStatus
     {
-        public string StatusCode { get; set; }
+        public string Status { get; set; }
         public string Description { get; set; }
         public int ID { get; set; }
 
         public ComplaintStatus() { }
         public ComplaintStatus(string name, string description)
         {
-            StatusCode = name;
+            Status = name;
             Description = description;
         }
     }

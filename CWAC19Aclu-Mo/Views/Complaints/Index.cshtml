@@ -8,19 +8,23 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Email</th>
             <th>Complaint No.</th>
+            <th>Client E-mail</th>
             <th>Complaint Status</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @foreach(var item in Model)
         {
-            <tr>
-                <td>@item.Client.Email</td>
-                <td>@item.ComplaintNo</td>
-                <td>@item.Status.StatusCode</td>
-            </tr>
+        <tr>
+            <td>@item.ComplaintNo</td>
+            <td>@item.Client.Email</td>
+            <td>@item.Status.Status</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

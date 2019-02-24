@@ -127,6 +127,47 @@ namespace CWAC19Aclu_Mo.Controllers
             return NotFound();
         }
 
+        public IActionResult Edit(int id)
+        {
+            var complaint = _context.Complaints
+                .Include(c => c.Status)
+                .SingleOrDefault(c => c.ID == id);
+
+            if(complaint == null)
+            {
+                return NotFound();
+            }
+
+            EditComplaintViewModel viewModel = 
+                    new EditComplaintViewModel(_context.ComplaintStatuses.ToList());
+
+            viewModel.ComplaintID = complaint.ID;
+            viewModel.StatusID = complaint.ComplaintStatusID;
+            viewModel.ComplaintNo = complaint.ComplaintNo;
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(EditComplaintViewModel viewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                var complaint = _context.Complaints
+                    .Include(c => c.Client)
+                    .SingleOrDefault(c => c.ID == viewModel.ComplaintID);
+                complaint.ComplaintStatusID = viewModel.StatusID;
+
+                SendNotification(complaint.Client.Email, viewModel.StatusID);
+
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(View), new { id = complaint.ClientProfileID });
+            }
+
+            return NotFound();
+        }
+
 
         private ClientProfile ClientExists(string email)
         {
@@ -141,7 +182,7 @@ namespace CWAC19Aclu_Mo.Controllers
             {
                 Subject = "Your Complaint Status With The ACLU-MO",
                 Content = String.Format("The status of your case is: {0}<br><br>{1}",
-                    status.StatusCode, status.Description)
+                    status.Status, status.Description)
             };
 
             EmailAddress emailAddress = new EmailAddress

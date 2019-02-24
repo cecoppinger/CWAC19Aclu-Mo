@@ -16,19 +16,19 @@ namespace CWAC19AcluMo.Data
             {
                 ComplaintStatus complaint1 = new ComplaintStatus
                 {
-                    StatusCode = "Received",
+                    Status = "Received",
                     Description = "Your complaint was received"
                 };
 
                 ComplaintStatus complaint2 = new ComplaintStatus
                 {
-                    StatusCode = "Under Review",
+                    Status = "Under Review",
                     Description = "Something somthing under review"
                 };
 
                 ComplaintStatus complaint3 = new ComplaintStatus
                 {
-                    StatusCode = "Fact-Finding",
+                    Status = "Fact-Finding",
                     Description = "Finding the facts, yo"
                 };
 
