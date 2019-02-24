@@ -20,7 +20,7 @@
     </div>
 
 
-    @if (Model.Complaints != null)
+    @if (Model.Complaint != null)
     {
      <form asp-action="Update" method="post">
      <div class="row">
@@ -33,20 +33,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach(var complaint in Model.Complaints)
-                    {
-                        <tr>
-                            <td>@complaint.ComplaintNo</td>
-                            <td>
-                                <select asp-for="StatusCodeID" asp-items="Model.StatusCodes" ></select>
-                            </td>
-                        </tr>
-                    }
+                    <tr>
+                        <td>@Model.Complaint.ComplaintNo</td>
+                        <td>
+                            <select asp-for="StatusCodeID" asp-items="Model.StatusCodes"></select>
+                            <input type="hidden" asp-for="ComplaintID"  />
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
      </div>
-     <input type="hidden" value="@Model.Email" />
      <input type="submit" value="Update" />
      </form>
     }

@@ -13,28 +13,25 @@ namespace CWAC19AcluMo.ViewModels
         public string Email { get; set; }
         public int StatusCodeID { get; set; }
 
-        public List<Complaint> Complaints { get; set; }
+        public int ComplaintID {get; set; }
+        public Complaint Complaint { get; set; }
         public List<SelectListItem> StatusCodes { get; set; }
 
         public UpdateComplaintViewModel() { }
-        public UpdateComplaintViewModel(IEnumerable<Complaint> complaints, IEnumerable<ComplaintStatus> statusCodes)
+        public UpdateComplaintViewModel(Complaint complaint, IEnumerable<ComplaintStatus> statusCodes)
         {
             StatusCodes = new List<SelectListItem>();
-            Complaints = new List<Complaint>();
+            ComplaintID = complaint.ID;
+            Complaint = complaint;
 
-            foreach(var complaint in complaints)
+            foreach (var statusCode in statusCodes)
             {
-                foreach (var statusCode in statusCodes)
+                StatusCodes.Add(new SelectListItem
                 {
-                    StatusCodes.Add(new SelectListItem
-                    {
-                        Value = statusCode.ID.ToString(),
-                        Text = statusCode.StatusCode
-                    });
-                }
-
-                Complaints.Add(complaint);
-            }
+                    Value = statusCode.ID.ToString(),
+                    Text = statusCode.StatusCode
+                });
+            }            
         }
     } 
 }

@@ -12,7 +12,7 @@ namespace CWAC19AcluMo.Models
         public bool Notify { get; set; } = true;
         public int ID { get; set; }
 
-        public IList<Complaint> Complaints { get; set; }
+        public Complaint Complaint { get; set; }
 
         public ClientProfile() { }
         public ClientProfile(string email)

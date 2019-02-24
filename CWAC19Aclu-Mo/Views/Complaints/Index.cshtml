@@ -1,0 +1,26 @@
+﻿@model  IEnumerable<CWAC19AcluMo.Models.Complaint>
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>All Complaints</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Complaint No.</th>
+            <th>Complaint Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+            <tr>
+                <td>@item.Client.Email</td>
+                <td>@item.ComplaintNo</td>
+                <td>@item.Status.StatusCode</td>
+            </tr>
+        }
+    </tbody>
+</table>

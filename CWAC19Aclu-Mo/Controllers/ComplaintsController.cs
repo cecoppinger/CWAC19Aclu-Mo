@@ -20,10 +20,21 @@ namespace CWAC19Aclu_Mo.Controllers
 
         public IActionResult View(int id)
         {
-            return View(_context.ClientProfiles
-                .Include(c => c.Complaints)
-                .ThenInclude(c => c.Status)
-                .SingleOrDefault(c => c.ID == id));
+            var client = _context.Complaints
+                .Include(c => c.Client)
+                .Include(c => c.Status)
+                .SingleOrDefault(c => c.ID == id);
+
+            return View(client);
+        }
+
+        public IActionResult Index()
+        {
+            var complaints = _context.Complaints
+                .Include(c => c.Client)
+                .Include(c => c.Status)
+                .ToList();
+            return View(complaints);
         }
 
         public IActionResult Success()
@@ -70,7 +81,7 @@ namespace CWAC19Aclu_Mo.Controllers
             if (email != null)
             {
                 ClientProfile client = _context.ClientProfiles
-                    .Include(cp => cp.Complaints)
+                    .Include(cp => cp.Complaint)
                     .ThenInclude(c => c.Status)
                     .SingleOrDefault(c => c.Email == email);
 
@@ -79,8 +90,9 @@ namespace CWAC19Aclu_Mo.Controllers
                     return NotFound();
                 }
 
-                UpdateComplaintViewModel viewModel = new UpdateComplaintViewModel(client.Complaints,
+                UpdateComplaintViewModel viewModel = new UpdateComplaintViewModel(client.Complaint, 
                     _context.ComplaintStatuses.ToList());
+
                 viewModel.Email = client.Email;
                 return View(viewModel);
             }
@@ -95,15 +107,16 @@ namespace CWAC19Aclu_Mo.Controllers
         {
             if(ModelState.IsValid)
             {
-                var client = _context.ClientProfiles
-                    .Include(c => c.Complaints)
-                    .ThenInclude(c => c.Status)
-                    .SingleOrDefault(c => c.Email == viewModel.Email);
+                var newComplaint = _context.Complaints
+                    .Include(c => c.Client)
+                    .Include(c => c.Status)
+                    .Where(c => c.ID == viewModel.ComplaintID)
+                    .SingleOrDefault();
 
-                client.Complaints = viewModel.Complaints;
+                newComplaint.ComplaintStatusID = viewModel.StatusCodeID;
 
                 _context.SaveChanges();
-                return RedirectToAction(nameof(View), client.ID);
+                return RedirectToAction(nameof(View), newComplaint.ClientProfileID);
             }
 
             return NotFound();
@@ -113,12 +126,6 @@ namespace CWAC19Aclu_Mo.Controllers
         private ClientProfile ClientExists(string email)
         {
             return _context.ClientProfiles.SingleOrDefault(u => u.Email == email);
-        }
-
-        private IEnumerable<Complaint> GetComplaints(ClientProfile client)
-        {
-            var complaints = _context.ClientProfiles.Include(c => c.Complaints).SingleOrDefault(c => c.ID == client.ID);
-            return complaints.Complaints;
         }
     }
 }

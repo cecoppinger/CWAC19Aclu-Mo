@@ -1,4 +1,4 @@
-﻿@model CWAC19AcluMo.Models.ClientProfile
+﻿@model CWAC19AcluMo.Models.Complaint
 @{
     ViewData["Title"] = "View";
 }
@@ -6,7 +6,7 @@
 <h2>View</h2>
 
 <div class="row justify-content-center">
-    <h3>Viewing Complaints for @Model.Email</h3>
+    <h3>Viewing Complaints for @Model.Client.Email</h3>
 </div>
 
 <div class="row justify-content-center">
@@ -19,13 +19,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var complaint in Model.Complaints)
-                {
-                    <tr>
-                        <td>@complaint.ComplaintNo</td>
-                        <td>@complaint.Status.StatusCode</td>
-                    </tr>
-                }
+                <tr>
+                    <td>@Model.ComplaintNo</td>
+                    <td>
+                        @Model.Status.StatusCode
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
